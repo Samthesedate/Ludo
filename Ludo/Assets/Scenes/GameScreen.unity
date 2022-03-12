@@ -232,7 +232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668891278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.37306482, y: 0.5140005, z: -0.046369903}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -257,3 +257,4 @@ MonoBehaviour:
   FinalSprintGreen: {fileID: 2320615604398788887, guid: 6fb361b6fa46bc04f977b6506fe5c148, type: 3}
   FinalSprintYellow: {fileID: 11232590669569747, guid: 15e482dc0d89f0149b76b02b331ca089, type: 3}
   BoardBase: {fileID: 3208283374678905899, guid: 6496dea91613edc40b7d891c59d0ea67, type: 3}
+  Camera: {fileID: 519420028}

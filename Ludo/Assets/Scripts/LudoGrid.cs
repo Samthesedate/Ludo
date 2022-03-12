@@ -28,7 +28,13 @@ public class LudoGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        BoardSetup();
+        BoardCenter();
+        BoardResize();
+    }
+    
+    private void BoardSetup()
+    {
         //Logic for creating the overall travel ring
         c1 = 1; c2 = 0;
         x = spawner.x - c1;
@@ -42,13 +48,13 @@ public class LudoGrid : MonoBehaviour
                 storage.Add(Instantiate(GridLoc, new Vector2(x, y), Quaternion.identity));
             }
             internalcount = count % 14;
-            if(internalcount == 1 || internalcount == 7 || internalcount == 13)
+            if (internalcount == 1 || internalcount == 7 || internalcount == 13)
             {
                 temp = c1;
                 c1 = c2;
                 c2 = temp;
             }
-            if(count <= 27)
+            if (count <= 27)
             {
                 y += c2;
             }
@@ -64,7 +70,7 @@ public class LudoGrid : MonoBehaviour
             {
                 x += c1;
             }
-            else if(count > 27 && count <= 41)
+            else if (count > 27 && count <= 41)
             {
                 x += c1;
             }
@@ -77,12 +83,12 @@ public class LudoGrid : MonoBehaviour
 
         //Logic for creating the blue, green, red and yellow final sprint
         count = 0; y = 0;
-        while(count< 6)
+        while (count < 6)
         {
             storage.Add(Instantiate(FinalSprintRed, new Vector2(-1, ++y), Quaternion.identity));
             count += 1;
         }
-        
+
         //Logic for creating the blue, green, red and yellow final sprint
         count = 0; y = 14;
         while (count < 6)
@@ -107,18 +113,27 @@ public class LudoGrid : MonoBehaviour
             count += 1;
         }
 
-        GameObject BoardBaserealized = Instantiate(BoardBase, new Vector2(-1,7), Quaternion.identity);
+        GameObject BoardBaserealized = Instantiate(BoardBase, new Vector2(-1, 7), Quaternion.identity);
         storage.Add(BoardBaserealized);
         BoardBaserealized.GetComponent<SpriteRenderer>().sortingOrder = -1;
-        for(int i = 0; i< storage.Count;i++)
+        for (int i = 0; i < storage.Count; i++)
         {
-            Debug.Log(storage[i]);
+            ((GameObject)storage[i]).transform.parent = this.transform;
         }
+        this.transform.parent = GameObject.Find("Main Camera").transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    private float Ratio()
     {
-        
+        return (Camera.main.orthographicSize * 2 / 15);
+    }
+    private void BoardCenter()
+    {
+        this.transform.position = new Vector2(1*Ratio(), -7*Ratio());
+    }
+
+    private void BoardResize()
+    {
+        this.transform.localScale = new Vector2(Ratio(),Ratio());
     }
 }
