@@ -16,6 +16,10 @@ public class LudoGrid : MonoBehaviour
     private GameObject FinalSprintYellow;
     [SerializeField]
     private GameObject BoardBase;
+    [SerializeField]
+    private GameObject OutlineSquare;
+    [SerializeField]
+    private GameObject Home;
     private ArrayList storage = new ArrayList();
     private int count = 0;
     private int internalcount = 0;
@@ -25,10 +29,20 @@ public class LudoGrid : MonoBehaviour
     private int c1;
     private int c2;
     private int temp;
+
+    private float halfheight;
+    //private float halfwidth;
+    private float bottomlimitpos;
+    private float toplimitpos;
+    private float topoffset;
+    private float bottomoffset;
     // Start is called before the first frame update
     void Start()
     {
         BoardSetup();
+        createOutline();
+        addHomeBase();
+        safeAreaCalc();
         BoardCenter();
         BoardResize();
     }
@@ -114,26 +128,104 @@ public class LudoGrid : MonoBehaviour
         }
 
         GameObject BoardBaserealized = Instantiate(BoardBase, new Vector2(-1, 7), Quaternion.identity);
-        storage.Add(BoardBaserealized);
         BoardBaserealized.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        BoardBaserealized.transform.parent = this.transform;
         for (int i = 0; i < storage.Count; i++)
         {
             ((GameObject)storage[i]).transform.parent = this.transform;
+            ((GameObject)storage[i]).GetComponent<SpriteRenderer>().sortingOrder = 1;
+            ((GameObject)storage[i]).transform.localScale = new Vector2(0.9f, 0.9f);
         }
         this.transform.parent = GameObject.Find("Main Camera").transform;
     }
-
     private float Ratio()
     {
-        return (Camera.main.orthographicSize * 2 / 15);
+        return ((toplimitpos - bottomlimitpos) / 15);
     }
     private void BoardCenter()
     {
-        this.transform.position = new Vector2(1*Ratio(), -7*Ratio());
+        this.transform.position = new Vector2(1*Ratio(), (-7+bottomoffset-topoffset)*Ratio());
     }
 
     private void BoardResize()
     {
         this.transform.localScale = new Vector2(Ratio(),Ratio());
     }
+
+    private void safeAreaCalc()
+    {
+        halfheight = Camera.main.orthographicSize;
+        //halfwidth = Camera.main.aspect * halfheight;
+
+        bottomlimitpos = Screen.safeArea.y * halfheight * 2 / Screen.height;
+        //Debug.Log(halfheight * 2);
+        //Debug.Log(bottomlimitpos);
+        toplimitpos = Screen.safeArea.yMax * halfheight * 2 / Screen.height;
+        //Debug.Log(toplimitpos);
+        topoffset = halfheight * 2 - toplimitpos;
+        bottomoffset = bottomlimitpos;
+    }
+
+    private void createOutline()
+    {
+        for(int i=0;i<storage.Count;i++)
+        {
+            Instantiate(OutlineSquare, ((GameObject)storage[i]).transform.position, Quaternion.identity).transform.parent = this.transform;
+        }
+    }
+
+    private void addHomeBase()
+    {
+        GameObject temp = Instantiate(FinalSprintRed, new Vector2(3.5f, 2.5f), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.transform.localScale = new Vector2(5, 5);
+        temp.GetComponent<SpriteRenderer>().color = new Color(152/255f, 4/255f, 50/255f,255/255f);
+        addHomes(temp.transform);
+
+        temp = Instantiate(FinalSprintGreen, new Vector2(3.5f, 11.5f), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.transform.localScale = new Vector2(5, 5);
+        temp.GetComponent<SpriteRenderer>().color = new Color(0/255f, 92/255f, 67/255f,255/255f);
+        addHomes(temp.transform);
+
+        temp = Instantiate(FinalSprintYellow, new Vector2(-5.5f, 2.5f), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.transform.localScale = new Vector2(5, 5);
+        temp.GetComponent<SpriteRenderer>().color = new Color(219/255f, 212/255f, 66/255f,255/255f);
+        addHomes(temp.transform);
+
+        temp = Instantiate(FinalSprintBlue, new Vector2(-5.5f, 11.5f), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.transform.localScale = new Vector2(5, 5);
+        temp.GetComponent<SpriteRenderer>().color = new Color(60/255f, 17/255f, 203/255f,255/255f);
+        addHomes(temp.transform);
+    }
+
+    private void addHomes(Transform transform)
+    {
+        GameObject temp;
+        temp = Instantiate(Home, new Vector2(transform.position.x - 1,transform.position.y - 1), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+        temp = Instantiate(Home, new Vector2(transform.position.x + 1, transform.position.y - 1), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+        temp = Instantiate(Home, new Vector2(transform.position.x - 1, transform.position.y + 1), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+        temp = Instantiate(Home, new Vector2(transform.position.x + 1, transform.position.y + 1), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+    }
+
+    /*private void getPosition()
+    {
+        for (int i = 0; i < storage.Count; i++)
+        {
+            Debug.Log(((GameObject)storage[i]).transform.position);
+        }
+    }*/
 }
