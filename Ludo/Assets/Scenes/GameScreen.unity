@@ -257,4 +257,5 @@ MonoBehaviour:
   FinalSprintGreen: {fileID: 2320615604398788887, guid: 6fb361b6fa46bc04f977b6506fe5c148, type: 3}
   FinalSprintYellow: {fileID: 11232590669569747, guid: 15e482dc0d89f0149b76b02b331ca089, type: 3}
   BoardBase: {fileID: 3208283374678905899, guid: 6496dea91613edc40b7d891c59d0ea67, type: 3}
-  Camera: {fileID: 519420028}
+  OutlineSquare: {fileID: 7736098442193130336, guid: 1cfe066c3cb745b4fa62580cdc7d8e38, type: 3}
+  Home: {fileID: 391090286903589900, guid: 7a75c5b5aead65642bcd6cef3363514f, type: 3}
