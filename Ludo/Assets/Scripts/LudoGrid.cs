@@ -20,6 +20,7 @@ public class LudoGrid : MonoBehaviour
     private GameObject OutlineSquare;
     [SerializeField]
     private GameObject Home;
+    private GameObject Symbols;
     private ArrayList storage = new ArrayList();
     private int count = 0;
     private int internalcount = 0;
@@ -42,6 +43,8 @@ public class LudoGrid : MonoBehaviour
         BoardSetup();
         createOutline();
         addHomeBase();
+        addSymbols();
+        finishLineHighlight();
         safeAreaCalc();
         BoardCenter();
         BoardResize();
@@ -135,12 +138,37 @@ public class LudoGrid : MonoBehaviour
             ((GameObject)storage[i]).transform.parent = this.transform;
             ((GameObject)storage[i]).GetComponent<SpriteRenderer>().sortingOrder = 1;
             ((GameObject)storage[i]).transform.localScale = new Vector2(0.9f, 0.9f);
+            AddStartGridColor(i);
         }
         this.transform.parent = GameObject.Find("Main Camera").transform;
     }
     private float Ratio()
     {
         return ((toplimitpos - bottomlimitpos) / 15);
+    }
+
+    private void AddStartGridColor(int i)
+    {
+        if(i==(3-1))
+        {
+            //Red Color
+            ((GameObject)storage[i]).GetComponent<SpriteRenderer>().color = new Color(152 / 255f, 4 / 255f, 50 / 255f, 255 / 255f);
+        }
+        else if (i == (16 - 1))
+        {
+            //Yellow color
+            ((GameObject)storage[i]).GetComponent<SpriteRenderer>().color = new Color(219 / 255f, 212 / 255f, 66 / 255f, 255 / 255f);
+        }
+        else if(i==(29-1))
+        {
+            //Blue color
+            ((GameObject)storage[i]).GetComponent<SpriteRenderer>().color = new Color(60 / 255f, 17 / 255f, 203 / 255f, 255 / 255f);
+        }
+        else if (i == (42 - 1))
+        {
+            //Green color
+            ((GameObject)storage[i]).GetComponent<SpriteRenderer>().color = new Color(0 / 255f, 92 / 255f, 67 / 255f, 255 / 255f);
+        }
     }
     private void BoardCenter()
     {
@@ -176,33 +204,34 @@ public class LudoGrid : MonoBehaviour
 
     private void addHomeBase()
     {
-        GameObject temp = Instantiate(FinalSprintRed, new Vector2(3.5f, 2.5f), Quaternion.identity);
+        GameObject temp = Instantiate(FinalSprintGreen, new Vector2(3.5f, 2.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(152/255f, 4/255f, 50/255f,255/255f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(0 / 255f, 92 / 255f, 67 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
-        temp = Instantiate(FinalSprintGreen, new Vector2(3.5f, 11.5f), Quaternion.identity);
+        temp = Instantiate(FinalSprintBlue, new Vector2(3.5f, 11.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(0/255f, 92/255f, 67/255f,255/255f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(60 / 255f, 17 / 255f, 203 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
-        temp = Instantiate(FinalSprintYellow, new Vector2(-5.5f, 2.5f), Quaternion.identity);
+        temp = Instantiate(FinalSprintRed, new Vector2(-5.5f, 2.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(219/255f, 212/255f, 66/255f,255/255f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(152 / 255f, 4 / 255f, 50 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
-        temp = Instantiate(FinalSprintBlue, new Vector2(-5.5f, 11.5f), Quaternion.identity);
+        temp = Instantiate(FinalSprintYellow, new Vector2(-5.5f, 11.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(60/255f, 17/255f, 203/255f,255/255f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(219 / 255f, 212 / 255f, 66 / 255f, 255 / 255f);
         addHomes(temp.transform);
     }
 
     private void addHomes(Transform transform)
     {
+        //Instantiate exisitng prefabs and then relocate them.
         GameObject temp;
         temp = Instantiate(Home, new Vector2(transform.position.x - 1,transform.position.y - 1), Quaternion.identity);
         temp.transform.parent = this.transform;
@@ -221,6 +250,58 @@ public class LudoGrid : MonoBehaviour
         temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
     }
 
+    private void addSymbols()
+    {
+        //HomeSymbols
+        CreateSymbolObject(0, 6, "Symbol1");
+        CreateSymbolObject(-2, 6, "Symbol2");
+        CreateSymbolObject(0, 8, "Symbol3");
+        CreateSymbolObject(-2, 8, "Symbol4");
+
+        //SafeSpots
+        CreateSymbolObject(-2, 12, "Symbol1");
+        CreateSymbolObject(4, 8, "Symbol2");
+        CreateSymbolObject(-6, 6, "Symbol3");
+        CreateSymbolObject(0, 2, "Symbol4"); 
+    }
+
+    private void CreateSymbolObject(int x, int y, string z)
+    {
+        Symbols = new GameObject();
+        Symbols.transform.position = new Vector2(x, y);
+        Symbols.AddComponent<SpriteRenderer>();
+        Symbols.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(z);
+        Symbols.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        Symbols.transform.parent = this.transform;
+    }
+
+    private void finishLineHighlight()
+    {
+        GameObject temp;
+        temp = Instantiate(Home, new Vector2(-1,6), Quaternion.identity);
+        temp.transform.localScale = new Vector2(0.8f, 0.8f);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        temp.GetComponent<SpriteRenderer>().color = new Color(152 / 255f, 4 / 255f, 50 / 255f, 255 / 255f);
+
+        temp = Instantiate(Home, new Vector2(-1, 8), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        temp.transform.localScale = new Vector2(0.8f, 0.8f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(60 / 255f, 17 / 255f, 203 / 255f, 255 / 255f);
+
+        temp = Instantiate(Home, new Vector2(0, 7), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        temp.transform.localScale = new Vector2(0.8f, 0.8f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(0 / 255f, 92 / 255f, 67 / 255f, 255 / 255f);
+
+        temp = Instantiate(Home, new Vector2(-2, 7), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        temp.transform.localScale = new Vector2(0.8f, 0.8f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(219 / 255f, 212 / 255f, 66 / 255f, 255 / 255f);
+    }
     /*private void getPosition()
     {
         for (int i = 0; i < storage.Count; i++)
