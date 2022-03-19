@@ -21,7 +21,7 @@ public class LudoGrid : MonoBehaviour
     [SerializeField]
     private GameObject Home;
     private GameObject Symbols;
-    private ArrayList storage = new ArrayList();
+    public static ArrayList storage = new ArrayList();
     private int count = 0;
     private int internalcount = 0;
     private Vector2 spawner = new Vector2(0,0);
@@ -37,19 +37,37 @@ public class LudoGrid : MonoBehaviour
     private float toplimitpos;
     private float topoffset;
     private float bottomoffset;
+
+    public static GameObject[] PawnArray;
+    private int counter;
+
+    void Awake()
+    {
+        //base.Awake();
+        //Debug.Log("Base Class");
+        //Initialized();
+    }
     // Start is called before the first frame update
     void Start()
     {
+        PawnArray = new GameObject[16];
+        counter = 0;
         BoardSetup();
         createOutline();
         addHomeBase();
         addSymbols();
         finishLineHighlight();
+        DiceBase();
         safeAreaCalc();
         BoardCenter();
         BoardResize();
     }
-    
+
+    void Update()
+    {
+        //pass
+    }
+
     private void BoardSetup()
     {
         //Logic for creating the overall travel ring
@@ -204,24 +222,31 @@ public class LudoGrid : MonoBehaviour
 
     private void addHomeBase()
     {
+        //Green
         GameObject temp = Instantiate(FinalSprintGreen, new Vector2(3.5f, 2.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
         temp.GetComponent<SpriteRenderer>().color = new Color(0 / 255f, 92 / 255f, 67 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
+
+        //Blue
         temp = Instantiate(FinalSprintBlue, new Vector2(3.5f, 11.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
         temp.GetComponent<SpriteRenderer>().color = new Color(60 / 255f, 17 / 255f, 203 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
+
+        //Red
         temp = Instantiate(FinalSprintRed, new Vector2(-5.5f, 2.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
         temp.GetComponent<SpriteRenderer>().color = new Color(152 / 255f, 4 / 255f, 50 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
+
+        //Yellow
         temp = Instantiate(FinalSprintYellow, new Vector2(-5.5f, 11.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
@@ -236,18 +261,22 @@ public class LudoGrid : MonoBehaviour
         temp = Instantiate(Home, new Vector2(transform.position.x - 1,transform.position.y - 1), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        PushInHomeBase(temp);
 
         temp = Instantiate(Home, new Vector2(transform.position.x + 1, transform.position.y - 1), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        PushInHomeBase(temp);
 
         temp = Instantiate(Home, new Vector2(transform.position.x - 1, transform.position.y + 1), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        PushInHomeBase(temp);
 
         temp = Instantiate(Home, new Vector2(transform.position.x + 1, transform.position.y + 1), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        PushInHomeBase(temp);
     }
 
     private void addSymbols()
@@ -309,4 +338,26 @@ public class LudoGrid : MonoBehaviour
             Debug.Log(((GameObject)storage[i]).transform.position);
         }
     }*/
+
+    private void DiceBase()
+    {
+        GameObject temp;
+        temp = Instantiate(GridLoc, new Vector2(8, 7), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.transform.localScale = new Vector2(3, 3);
+        temp.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        temp.AddComponent<BoxCollider2D>();
+    }
+
+    private void PushInHomeBase(GameObject pawnsingle)
+    {
+        if (counter < 16)
+        {
+            PawnArray[counter] = pawnsingle;
+            //Debug.Log(Homes[counter]);
+            counter++;
+        }
+        else
+            Debug.Log("Something is wrong. There can only be 16 pawns");
+    }
 }
