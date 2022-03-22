@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private GameObject LevelCreator;
     [SerializeField]
     private GameObject PlayerCreator;
+
+    public static bool turn;
     void Awake()
     {
         Instantiate(LevelCreator, new Vector2(0, 0), Quaternion.identity);
@@ -17,4 +19,5 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(PlayerCreator, new Vector3(0, 0, 1), Quaternion.identity);
     }
+
 }

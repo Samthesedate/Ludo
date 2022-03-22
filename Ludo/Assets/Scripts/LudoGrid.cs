@@ -347,6 +347,7 @@ public class LudoGrid : MonoBehaviour
         temp.transform.localScale = new Vector2(3, 3);
         temp.GetComponent<SpriteRenderer>().sortingOrder = -1;
         temp.AddComponent<BoxCollider2D>();
+        temp.tag = "DiceThrow";
     }
 
     private void PushInHomeBase(GameObject pawnsingle)
