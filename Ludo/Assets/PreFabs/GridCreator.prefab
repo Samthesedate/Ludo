@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6352060499133601443}
   - component: {fileID: 6352060499133601468}
   - component: {fileID: 6352060499133601470}
-  - component: {fileID: 6352060499133601471}
+  - component: {fileID: -6222715732448285992}
   m_Layer: 0
   m_Name: GridCreator
   m_TagString: Untagged
@@ -106,7 +106,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6352060499133601471
+--- !u!114 &-6222715732448285992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

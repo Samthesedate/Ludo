@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Blue
+  - Red
+  - Yellow
+  - Green
+  - 1
+  - 2
+  - 3
+  - 4
+  - DiceThrow
   layers:
   - Default
   - TransparentFX
