@@ -222,13 +222,19 @@ public class LudoGrid : MonoBehaviour
 
     private void addHomeBase()
     {
-        //Green
-        GameObject temp = Instantiate(FinalSprintGreen, new Vector2(3.5f, 2.5f), Quaternion.identity);
+        //Red
+        GameObject temp = Instantiate(FinalSprintRed, new Vector2(-5.5f, 2.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(0 / 255f, 92 / 255f, 67 / 255f, 255 / 255f);
+        temp.GetComponent<SpriteRenderer>().color = new Color(152 / 255f, 4 / 255f, 50 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
+        //Yellow
+        temp = Instantiate(FinalSprintYellow, new Vector2(-5.5f, 11.5f), Quaternion.identity);
+        temp.transform.parent = this.transform;
+        temp.transform.localScale = new Vector2(5, 5);
+        temp.GetComponent<SpriteRenderer>().color = new Color(219 / 255f, 212 / 255f, 66 / 255f, 255 / 255f);
+        addHomes(temp.transform);
 
         //Blue
         temp = Instantiate(FinalSprintBlue, new Vector2(3.5f, 11.5f), Quaternion.identity);
@@ -237,21 +243,12 @@ public class LudoGrid : MonoBehaviour
         temp.GetComponent<SpriteRenderer>().color = new Color(60 / 255f, 17 / 255f, 203 / 255f, 255 / 255f);
         addHomes(temp.transform);
 
-
-        //Red
-        temp = Instantiate(FinalSprintRed, new Vector2(-5.5f, 2.5f), Quaternion.identity);
+        //Green
+        temp = Instantiate(FinalSprintGreen, new Vector2(3.5f, 2.5f), Quaternion.identity);
         temp.transform.parent = this.transform;
         temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(152 / 255f, 4 / 255f, 50 / 255f, 255 / 255f);
-        addHomes(temp.transform);
-
-
-        //Yellow
-        temp = Instantiate(FinalSprintYellow, new Vector2(-5.5f, 11.5f), Quaternion.identity);
-        temp.transform.parent = this.transform;
-        temp.transform.localScale = new Vector2(5, 5);
-        temp.GetComponent<SpriteRenderer>().color = new Color(219 / 255f, 212 / 255f, 66 / 255f, 255 / 255f);
-        addHomes(temp.transform);
+        temp.GetComponent<SpriteRenderer>().color = new Color(0 / 255f, 92 / 255f, 67 / 255f, 255 / 255f);
+        addHomes(temp.transform);        
     }
 
     private void addHomes(Transform transform)

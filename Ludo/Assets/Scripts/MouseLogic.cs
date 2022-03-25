@@ -38,7 +38,7 @@ public class MouseLogic : MonoBehaviour
     {
         if(choice == null)
         {
-            //Destroy(abc); will be added later once player selection is implemented
+            Destroy(abc);
             DiceRoll();
         }
         else
@@ -106,7 +106,7 @@ public class MouseLogic : MonoBehaviour
         {
             Destroy(objectholder);
             roll = true; //logic to change to provide chance only when its players turn
-            choice = Random.Range(1, 7);
+            choice = Random.Range(5, 7);
             //Debug.Log(choice);
             Choice chosen = (Choice)choice;
             abc = new GameObject();
